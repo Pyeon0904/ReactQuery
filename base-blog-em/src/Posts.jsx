@@ -1,7 +1,8 @@
-import { useState } from "react";
+import {useState} from "react";
+import {PostDetail} from "./PostDetail";
+import {useQuery} from "@tanstack/react-query";
+import {fetchPosts} from "./api.js";
 
-import { fetchPosts, deletePost, updatePost } from "./api";
-import { PostDetail } from "./PostDetail";
 const maxPostPage = 10;
 
 export function Posts() {
@@ -9,7 +10,20 @@ export function Posts() {
   const [selectedPost, setSelectedPost] = useState(null);
 
   // replace with useQuery
-  const data = [];
+  // const data = []; // 초기값
+  const {data, isError, error, isLoading} = useQuery({
+    queryKey: ["posts"],
+    queryFn: fetchPosts,
+  });
+  if (isLoading) {
+    return <h3>Loading...</h3>;
+  }
+  if (isError) {
+    return <>
+      <h3>Oops, something went wrong!</h3>
+      <p>{error.toString()}</p>
+    </>
+  }
 
   return (
     <>
@@ -25,16 +39,18 @@ export function Posts() {
         ))}
       </ul>
       <div className="pages">
-        <button disabled onClick={() => {}}>
+        <button disabled onClick={() => {
+        }}>
           Previous page
         </button>
         <span>Page {currentPage + 1}</span>
-        <button disabled onClick={() => {}}>
+        <button disabled onClick={() => {
+        }}>
           Next page
         </button>
       </div>
-      <hr />
-      {selectedPost && <PostDetail post={selectedPost} />}
+      <hr/>
+      {selectedPost && <PostDetail post={selectedPost}/>}
     </>
   );
 }
