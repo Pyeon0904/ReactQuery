@@ -12,6 +12,7 @@ export async function fetchComments(postId) {
   return response.json();
 }
 
+// TODO: DELETE Post
 export async function deletePost(postId) {
   const response = await fetch(
     `https://jsonplaceholder.typicode.com/posts/${postId}`,
@@ -20,6 +21,7 @@ export async function deletePost(postId) {
   return response.json();
 }
 
+// TODO: UPDATE Post
 export async function updatePost(postId) {
   const response = await fetch(
     `https://jsonplaceholder.typicode.com/posts/${postId}`,

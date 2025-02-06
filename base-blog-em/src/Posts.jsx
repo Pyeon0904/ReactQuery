@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import {PostDetail} from "./PostDetail";
-import {useQuery, useQueryClient} from "@tanstack/react-query";
-import {fetchPosts} from "./api.js";
+import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
+import {deletePost, fetchPosts} from "./api.js";
 
 const maxPostPage = 10;
 
@@ -10,6 +10,13 @@ export function Posts() {
   const [selectedPost, setSelectedPost] = useState(null);
 
   const queryClient = useQueryClient();
+
+  // deleteMutation이 실제로는, 'deleteMutation.mutate' 라는 mutate함수라는 것!
+  // 누군가 삭제버튼을 클릭할 때, 우리가 실행하고 싶은 함수로의 접근을 하게 하고 postDetail 컴포넌트 내에서 실행될 것이다!
+  // 비록 Posts.jsx에서 실행되는 게 아니지만 이 deleteMutation을 PostDetail 컴포넌트로 전달한다
+  const deleteMutation = useMutation({
+    mutationFn: (postId) => deletePost(postId),
+  });
 
   useEffect(() => {
     if (currentPage < maxPostPage) {
@@ -23,14 +30,14 @@ export function Posts() {
 
   // replace with useQuery
   // const data = []; // 초기값
-  const {data, isError, error, isFetching} = useQuery({
+  const {data, isError, error, isLoading} = useQuery({
     queryKey: ["posts", currentPage],
     queryFn: () => fetchPosts(currentPage),
     staleTime: 2000, // 2 seconds
   });
 
-  if (isFetching) {
-    return <h3>Fetching in progress..</h3>;
+  if (isLoading) {
+    return <h3>Loading..</h3>;
   }
   if (isError) {
     return <>
@@ -66,7 +73,7 @@ export function Posts() {
         </button>
       </div>
       <hr/>
-      {selectedPost && <PostDetail post={selectedPost}/>}
+      {selectedPost && <PostDetail post={selectedPost} deleteMutation={deleteMutation}/>}
     </>
   );
 }
