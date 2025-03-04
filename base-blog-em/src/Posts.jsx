@@ -11,7 +11,6 @@ export function Posts() {
 
   const queryClient = useQueryClient();
 
-  // Git TEST
   // deleteMutation이 실제로는, 'deleteMutation.mutate' 라는 mutate함수라는 것!
   // 누군가 삭제버튼을 클릭할 때, 우리가 실행하고 싶은 함수로의 접근을 하게 하고 postDetail 컴포넌트 내에서 실행될 것이다!
   // 비록 Posts.jsx에서 실행되는 게 아니지만 이 deleteMutation을 PostDetail 컴포넌트로 전달한다
@@ -54,7 +53,10 @@ export function Posts() {
           <li
             key={post.id}
             className="post-title"
-            onClick={() => setSelectedPost(post)}
+            onClick={() => {
+              deleteMutation.reset(); // Mutation 리셋
+              setSelectedPost(post)
+            }}
           >
             {post.title}
           </li>
