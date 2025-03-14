@@ -17,8 +17,6 @@ import {UserProfile} from "@/components/user/UserProfile";
 import {queryClient} from "@/react-query/queryClient";
 import {theme} from "@/theme";
 
-// import { queryClient } from "@/react-query/queryClient";
-
 export function App() {
   return (
     <ChakraProvider theme={theme}>
