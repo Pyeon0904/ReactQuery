@@ -1,12 +1,12 @@
-import { Box, HStack, Text } from "@chakra-ui/react";
+import {Box, HStack, Text} from "@chakra-ui/react";
 import dayjs from "dayjs";
 
-import { Appointment as AppointmentType } from "@shared/types";
+import {Appointment as AppointmentType} from "@shared/types";
 
-import { useReserveAppointment } from "./hooks/useReserveAppointment";
-import { appointmentInPast, getAppointmentColor } from "./utils";
+import {useReserveAppointment} from "./hooks/useReserveAppointment";
+import {appointmentInPast, getAppointmentColor} from "./utils";
 
-import { useLoginData } from "@/auth/AuthContext";
+import {useLoginData} from "@/auth/AuthContext";
 
 // determine whether this appointment can be reserved / un-reserved by logged-in user
 function isClickable(
@@ -24,8 +24,8 @@ interface AppointmentProps {
   appointmentData: AppointmentType;
 }
 
-export function Appointment({ appointmentData }: AppointmentProps) {
-  const { userId } = useLoginData();
+export function Appointment({appointmentData}: AppointmentProps) {
+  const {userId} = useLoginData();
 
   const reserveAppointment = useReserveAppointment();
   const [textColor, bgColor] = getAppointmentColor(appointmentData, userId);
